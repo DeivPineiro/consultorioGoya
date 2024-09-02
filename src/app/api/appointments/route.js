@@ -1,19 +1,19 @@
 import { NextResponse } from 'next/server';
-import prisma from '../../../lib/prisma'; 
+import prisma from '../../../lib/prisma';
 
 // Función para manejar solicitudes POST (ya existente)
 export async function POST(request) {
   try {
     const { patientName, patientSurName, dni, email, phone, startTime, endTime, office, userId, date } = await request.json();
-        
+
     const parsedDni = parseInt(dni, 10);
     const parsedOffice = parseInt(office, 10);
-    const parsedUserId = parseInt(userId, 10);       
-    const selectedDate = date.split('T')[0]; 
-    const startDateTime = new Date(`${selectedDate}T${startTime}:00`);
-    const endDateTime = new Date(`${selectedDate}T${endTime}:00`);
+    const parsedUserId = parseInt(userId, 10);
+    const selectedDate = date.split('T')[0];
+    const startDateTime = new Date(new Date(`${selectedDate}T${startTime}:00`).getTime() - timezoneOffset * 60000);
+    const endDateTime = new Date(new Date(`${selectedDate}T${endTime}:00`).getTime() - timezoneOffset * 60000);
     console.log(startTime + " " + endTime);
-   console.log(startDateTime + "  " + endDateTime);
+    console.log(startDateTime + "  " + endDateTime);
 
     const appointment = await prisma.appointment.create({
       data: {
@@ -22,8 +22,8 @@ export async function POST(request) {
         dni: parsedDni,
         email,
         phone,
-        startTime: startDateTime, 
-        endTime: endDateTime, 
+        startTime: startDateTime,
+        endTime: endDateTime,
         office: parsedOffice,
         userId: parsedUserId,
       },
@@ -87,7 +87,7 @@ export async function PUT(request, { params }) {
         office: data.office,
       },
     });
-    
+
     return NextResponse.json({ success: true, appointment: updatedAppointment });
   } catch (error) {
     console.error('Error al actualizar el turno:', error);
