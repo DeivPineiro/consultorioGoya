@@ -10,10 +10,10 @@ export async function POST(request) {
     const parsedOffice = parseInt(office, 10);
     const parsedUserId = parseInt(userId, 10);       
     const selectedDate = date.split('T')[0]; 
-    const startDateTime = new Date(`${selectedDate}T${startTime}:00`).toISOString();
-    const endDateTime = new Date(`${selectedDate}T${endTime}:00`).toISOString();
-    
-   
+    const startDateTime = new Date(`${selectedDate}T${startTime}:00`);
+    const endDateTime = new Date(`${selectedDate}T${endTime}:00`);
+    console.log(startTime + " " + endTime);
+   console.log(startDateTime + "  " + endDateTime);
 
     const appointment = await prisma.appointment.create({
       data: {

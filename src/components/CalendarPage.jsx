@@ -183,6 +183,7 @@ const CalendarPage = () => {
 
       if (selectedSlot?.id) {
         // Aquí realizas la verificación de disponibilidad excluyendo el turno que estás editando
+      
         const availabilityResponse = await axios.post('/api/check-availability', {
           office: formData.office,
           startTime: formattedStartTime.toISOString(),
