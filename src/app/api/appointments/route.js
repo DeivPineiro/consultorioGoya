@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma'; 
+import moment from 'moment-timezone';
 
 // Función para manejar solicitudes POST (ya existente)
 export async function POST(request) {
@@ -10,8 +11,9 @@ export async function POST(request) {
     const parsedOffice = parseInt(office, 10);
     const parsedUserId = parseInt(userId, 10);       
     const selectedDate = date.split('T')[0]; 
-    const startDateTime = new Date(`${selectedDate}T${startTime}:00`).toISOString();
-    const endDateTime = new Date(`${selectedDate}T${endTime}:00`).toISOString();
+    const startDateTime = moment.tz(`${selectedDate}T${startTime}:00`, 'America/Argentina/Buenos_Aires').toDate();
+    const endDateTime = moment.tz(`${selectedDate}T${endTime}:00`, 'America/Argentina/Buenos_Aires').toDate();
+
     console.log(startTime + " " + endTime);
    console.log(startDateTime + "  " + endDateTime);
 
@@ -22,8 +24,8 @@ export async function POST(request) {
         dni: parsedDni,
         email,
         phone,
-        startTime: startDateTime, 
-        endTime: endDateTime, 
+        startTime: startDateTime.toISOString(), 
+        endTime: endDateTime.toISOString(), 
         office: parsedOffice,
         userId: parsedUserId,
       },
