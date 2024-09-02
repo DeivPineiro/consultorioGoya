@@ -112,10 +112,7 @@ const CalendarPage = () => {
   };
 
   const handleEventClick = (clickInfo) => {
-    // Verificar si el turno pertenece al usuario actual
-    console.log('session.user.id: ' + session.user.id);
-    console.log(appointments);
-    console.log('clickInfo.event.extendedProps.userId: ' + clickInfo.event);
+    // Verificar si el turno pertenece al usuario actual  
     if (clickInfo.event.extendedProps.userId !== session?.user?.id) {
       alert('No tienes permisos para editar este turno.');
       return;

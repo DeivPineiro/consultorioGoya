@@ -30,8 +30,7 @@ const authOptions = {
     },
     callbacks: {
         async session({ session, token }) {
-            if (token) {
-                console.log(session.user);
+            if (token) {                
                 session.user = {
                     id: token.id,
                     email: token.email,

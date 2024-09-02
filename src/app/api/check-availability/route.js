@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 export async function POST(request) {
   const { office, startTime, endTime, appointmentId } = await request.json();
-  console.log(appointmentId);
   try {
     const start = new Date(startTime);
     const end = new Date(endTime);

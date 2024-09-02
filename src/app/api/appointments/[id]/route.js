@@ -5,7 +5,7 @@ export async function PUT(req, { params }) {
   const { id } = params; // Obtén el ID de la URL
   const { patientName, patientSurName, dni, email, phone, startTime, endTime, office } = await req.json();
 
-  console.log("Office route id:" + office);
+ 
 
   try {
     const updatedAppointment = await prisma.appointment.update({

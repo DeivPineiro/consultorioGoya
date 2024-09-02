@@ -13,7 +13,7 @@ export async function POST(request) {
     const startDateTime = new Date(`${selectedDate}T${startTime}:00`).toISOString();
     const endDateTime = new Date(`${selectedDate}T${endTime}:00`).toISOString();
     
-    console.log("Office Route:" + parsedOffice);
+   
 
     const appointment = await prisma.appointment.create({
       data: {
