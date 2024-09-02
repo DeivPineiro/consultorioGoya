@@ -55,5 +55,13 @@ const authOptions = {
 };
 
 // Exporta las funciones GET y POST
-export const GET = (req, res) => NextAuth(req, res, authOptions);
-export const POST = (req, res) => NextAuth(req, res, authOptions);
+// export const GET = (req, res) => NextAuth(req, res, authOptions);
+// export const POST = (req, res) => NextAuth(req, res, authOptions);
+
+export const GET = async (req, res) => {
+    return await NextAuth(req, res, authOptions);
+  };
+  
+  export const POST = async (req, res) => {
+    return await NextAuth(req, res, authOptions);
+  };
