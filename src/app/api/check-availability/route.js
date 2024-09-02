@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function POST(request) {
   const { office, startTime, endTime, appointmentId } = await request.json();
-
+  console.log(appointmentId);
   try {
     const start = new Date(startTime);
     const end = new Date(endTime);
@@ -14,7 +14,7 @@ export async function POST(request) {
       throw new Error('Invalid date or time value.');
     }
 
-    // Encuentra citas que se solapan con el rango solicitado
+    // Si appointmentId no está definido, omite el filtro NOT
     const existingAppointments = await prisma.appointment.findMany({
       where: {
         office: parseInt(office),
@@ -24,10 +24,12 @@ export async function POST(request) {
         endTime: {
           gt: start,
         },
-        // Excluye el turno que se está editando
-        NOT: {
-          id: parseInt(appointmentId), // Asegúrate de que appointmentId sea un número entero
-        },
+        // Si appointmentId está definido, exclúyelo de la consulta
+        ...(appointmentId && {
+          NOT: {
+            id: parseInt(appointmentId),
+          },
+        }),
       },
     });
 
