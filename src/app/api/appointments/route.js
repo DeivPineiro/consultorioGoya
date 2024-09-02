@@ -4,8 +4,8 @@ import prisma from '../../../lib/prisma';
 // Función para manejar solicitudes POST (ya existente)
 export async function POST(request) {
   try {
+    const timezoneOffset = new Date().getTimezoneOffset();
     const { patientName, patientSurName, dni, email, phone, startTime, endTime, office, userId, date } = await request.json();
-
     const parsedDni = parseInt(dni, 10);
     const parsedOffice = parseInt(office, 10);
     const parsedUserId = parseInt(userId, 10);
