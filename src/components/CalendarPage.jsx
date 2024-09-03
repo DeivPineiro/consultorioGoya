@@ -69,7 +69,6 @@ const CalendarPage = () => {
   const handleDelete = async () => {
     if (!selectedSlot?.id) return;
 
-    // Verificar si el turno pertenece al usuario actual
     if (selectedSlot.extendedProps.userId !== session?.user?.id) {
       alert('No tienes permisos para eliminar este turno.');
       return;
@@ -82,9 +81,8 @@ const CalendarPage = () => {
       const response = await axios.delete(`/api/appointments/${selectedSlot.id}`);
 
       if (response.data.success) {
-        // Refetch appointments to reload the component
         fetchAppointments();
-        handleCancel(); // Reiniciar formulario y cerrar modal
+        handleCancel();
       } else {
         console.error('Error al eliminar el turno:', response.data.message);
       }
@@ -112,7 +110,6 @@ const CalendarPage = () => {
   };
 
   const handleEventClick = (clickInfo) => {
-    // Verificar si el turno pertenece al usuario actual  
     if (clickInfo.event.extendedProps.userId !== session?.user?.id) {
       alert('No tienes permisos para editar este turno.');
       return;
@@ -182,17 +179,14 @@ const CalendarPage = () => {
       let response;
 
       if (selectedSlot?.id) {
-        // Aquí realizas la verificación de disponibilidad excluyendo el turno que estás editando
-      
         const availabilityResponse = await axios.post('/api/check-availability', {
           office: formData.office,
           startTime: formattedStartTime.toISOString(),
           endTime: formattedEndTime.toISOString(),
-          appointmentId: selectedSlot.id, // Pasa el id del turno que estás editando
+          appointmentId: selectedSlot.id,
         });
 
         if (availabilityResponse.data.available) {
-          // Si está disponible, actualiza el turno
           response = await axios.put(`/api/appointments/${selectedSlot.id}`, {
             ...formData,
             startTime: formattedStartTime.toISOString(),
@@ -206,7 +200,6 @@ const CalendarPage = () => {
           return;
         }
       } else {
-        // Si es un turno nuevo, verifica la disponibilidad normalmente
         const availabilityResponse = await axios.post('/api/check-availability', {
           office: formData.office,
           startTime: formattedStartTime.toISOString(),
@@ -250,10 +243,8 @@ const CalendarPage = () => {
     }
   };
 
-
-
   return (
-    <div>
+    <div className='w-full h-full px-4 py-0'>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -262,7 +253,7 @@ const CalendarPage = () => {
         selectable={true}
         events={appointments.map(appointment => ({
           id: appointment.id,
-          title: `${appointment.patientName} ${appointment.patientSurName} - Dr/a: ${appointment.user ? appointment.user.name : session.user.name} - Consultorio: ${appointment.office}`,
+          title: `Dr/a: ${appointment.user ? appointment.user.name : session.user.name} - Consultorio: ${appointment.office}`,
           start: appointment.startTime,
           end: appointment.endTime,
           backgroundColor: officeColors[appointment.office] || '#ccc',
@@ -283,149 +274,153 @@ const CalendarPage = () => {
         locale={esLocale}
       />
 
-      {currentView === 'timeGridDay' && (
-        <div className="flex mt-8">
-          <button
-            className='mx-2 p-2 border rounded-xl bg-neutral-900 text-gray-50'
-            onClick={handleBackToMonthView}
-          >
-            Volver a vista mensual
-          </button>
-          <button
-            className='mx-2 p-2 border rounded-xl bg-blue-500 text-white'
-            onClick={handleNewAppointment}
-          >
-            Agendar
-          </button>
-        </div>
-      )}
-
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg w-full max-w-lg mx-4">
-            <h2 className="text-lg font-bold mb-4">
-              {selectedSlot?.id ? 'Editar Turno' : 'Agregar Turno'}
-            </h2>
-            {conflictError && (
-              <div className="bg-red-500 text-white p-2 rounded mb-4">
-                {conflictError}
-              </div>
-            )}
+      {showModal && currentView === 'timeGridDay' && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+          <div className='w-full max-w-md p-4 bg-white rounded-lg shadow-lg'>
             <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700">Nombre:</label>
+              <h2 className='mb-4 text-xl font-semibold text-center'>{selectedSlot?.id ? 'Editar Turno' : 'Agregar Turno'}</h2>
+              {conflictError && <div className='mb-2 text-sm text-red-600'>{conflictError}</div>}
+              <div className='mb-4'>
+                <label className='block mb-1 text-sm font-medium' htmlFor='patientName'>Nombre del paciente:</label>
                 <input
-                  type="text"
-                  name="patientName"
+                  className='w-full px-3 py-2 border rounded'
+                  type='text'
+                  id='patientName'
+                  name='patientName'
                   value={formData.patientName}
                   onChange={handleChange}
-                  className="border rounded p-2 w-full"
                   required
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Apellido:</label>
+              <div className='mb-4'>
+                <label className='block mb-1 text-sm font-medium' htmlFor='patientSurName'>Apellido del paciente:</label>
                 <input
-                  type="text"
-                  name="patientSurName"
+                  className='w-full px-3 py-2 border rounded'
+                  type='text'
+                  id='patientSurName'
+                  name='patientSurName'
                   value={formData.patientSurName}
                   onChange={handleChange}
-                  className="border rounded p-2 w-full"
+                  required
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">DNI:</label>
+              <div className='mb-4'>
+                <label className='block mb-1 text-sm font-medium' htmlFor='dni'>DNI:</label>
                 <input
-                  type="number"
-                  name="dni"
+                  className='w-full px-3 py-2 border rounded'
+                  type='text'
+                  id='dni'
+                  name='dni'
                   value={formData.dni}
                   onChange={handleChange}
-                  className="border rounded p-2 w-full"
+                  required
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Email:</label>
+              <div className='mb-4'>
+                <label className='block mb-1 text-sm font-medium' htmlFor='email'>Email:</label>
                 <input
-                  type="email"
-                  name="email"
+                  className='w-full px-3 py-2 border rounded'
+                  type='email'
+                  id='email'
+                  name='email'
                   value={formData.email}
                   onChange={handleChange}
-                  className="border rounded p-2 w-full"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Teléfono:</label>
+              <div className='mb-4'>
+                <label className='block mb-1 text-sm font-medium' htmlFor='phone'>Teléfono:</label>
                 <input
-                  type="text"
-                  name="phone"
+                  className='w-full px-3 py-2 border rounded'
+                  type='tel'
+                  id='phone'
+                  name='phone'
                   value={formData.phone}
                   onChange={handleChange}
-                  className="border rounded p-2 w-full"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Hora de Inicio:</label>
-                <input
-                  type="time"
-                  name="startTime"
-                  value={formData.startTime}
-                  onChange={handleChange}
-                  className="border rounded p-2 w-full"
-                  required
-                />
+              <div className='flex justify-between mb-4'>
+                <div className='w-full'>
+                  <label className='block mb-1 text-sm font-medium' htmlFor='startTime'>Hora de inicio:</label>
+                  <input
+                    className='w-full px-3 py-2 border rounded'
+                    type='time'
+                    id='startTime'
+                    name='startTime'
+                    value={formData.startTime}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className='w-full ml-4'>
+                  <label className='block mb-1 text-sm font-medium' htmlFor='endTime'>Hora de fin:</label>
+                  <input
+                    className='w-full px-3 py-2 border rounded'
+                    type='time'
+                    id='endTime'
+                    name='endTime'
+                    value={formData.endTime}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Hora de Fin:</label>
-                <input
-                  type="time"
-                  name="endTime"
-                  value={formData.endTime}
-                  onChange={handleChange}
-                  className="border rounded p-2 w-full"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Consultorio:</label>
+              <div className='mb-4'>
+                <label className='block mb-1 text-sm font-medium' htmlFor='office'>Consultorio:</label>
                 <select
-                  name="office"
+                  className='w-full px-3 py-2 border rounded'
+                  id='office'
+                  name='office'
                   value={formData.office}
                   onChange={handleChange}
-                  className="border rounded p-2 w-full"
+                  required
                 >
-                  <option value="1">Consultorio 1</option>
-                  <option value="2">Consultorio 2</option>
-                  <option value="3">Consultorio 3</option>
+                  <option value='1'>Consultorio 1</option>
+                  <option value='2'>Consultorio 2</option>
+                  <option value='3'>Consultorio 3</option>
                 </select>
               </div>
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                >
-                  Guardar
-                </button>
+              <div className='flex justify-end space-x-2'>
                 {selectedSlot?.id && (
                   <button
-                    type="button"
+                    className='px-4 py-2 text-white bg-red-600 rounded'
+                    type='button'
                     onClick={handleDelete}
-                    className="bg-red-500 text-white px-4 py-2 rounded mr-2"
                   >
                     Eliminar
                   </button>
                 )}
                 <button
-                  type="button"
+                  className='px-4 py-2 text-gray-700 bg-gray-300 rounded'
+                  type='button'
                   onClick={handleCancel}
-                  className="bg-gray-500 text-white px-4 py-2 rounded"
                 >
                   Cancelar
                 </button>
-
-
+                <button
+                  className='px-4 py-2 text-white bg-blue-600 rounded'
+                  type='submit'
+                >
+                  Guardar
+                </button>
               </div>
             </form>
           </div>
+        </div>
+      )}
+      {currentView === 'timeGridDay' && (
+        <div className='mt-4 text-center'>
+          <button
+            className='px-4 py-2 text-white bg-slate-700 rounded'
+            onClick={handleBackToMonthView}
+          >
+            Volver 
+          </button>
+          <button
+            className='mx-2 p-2 rounded bg-blue-500 text-white'
+            onClick={handleNewAppointment}
+          >
+            Nuevo turno
+          </button>
         </div>
       )}
     </div>

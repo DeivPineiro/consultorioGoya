@@ -22,9 +22,9 @@ export default function Calendar() {
   }
 
   return (
-    <div>
-      <h1>Calendar Page</h1>
-      <CalendarPage />
+    <div className='calendarPage'>
+      <h1 className='invisible'>Página calendario</h1>
+      < CalendarPage />
     </div>
   );
 }

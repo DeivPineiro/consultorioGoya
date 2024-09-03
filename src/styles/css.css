@@ -2,4 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+.fc-toolbar-title{
 
+    font-size: 14px !important; 
+    font-style: italic;
+    font-weight: bold;
+
+}
+
+.fc-button-primary{
+    background-color: #1f2937 !important;
+    font-size: 0.75rem !important;
+
+}
+.calendarPage{
+
+    height: 72vh !important;
+
+}
+.fc-media-screen{
+
+    height: 100% !important;
+
+}
+
+.fc-daygrid-day-frame{
+
+    height: 30px !important;
+    overflow: scroll !important;
+    
+
+}
+
+
+.fc-daygrid-day-top{
+
+    height: 30px !important;
+
+}
+
+.fc-scrollgrid-sync-inner{
+
+    font-size: 10px;
+
+}
+
+.fc-timegrid-slot-label-frame{
+
+    font-size: 10px;
+
+}
+
+.fc-timegrid-axis-frame > span{
+
+    font-size: 0px !important;
+
+
+}
