@@ -26,6 +26,7 @@
 
 }
 
+  
 .fc-daygrid-day-frame{
 
     height: 30px !important;
@@ -33,8 +34,17 @@
     
 
 }
+.fc-event-time{
 
+    font-size: 10px !important;
 
+}
+
+.fc-event-title-container{
+
+    font-size: 10px;   
+
+}
 .fc-daygrid-day-top{
 
     height: 30px !important;
@@ -59,3 +69,25 @@
 
 
 }
+
+.logoAbout{
+
+    max-width: 300px;
+
+}
+.back{
+    
+    background-image: linear-gradient(to top,#1f2937,#ffffff ) ;
+    
+
+}
+@media screen and (min-width: 800px) {
+    .fc-daygrid-day-frame{
+
+        height: 30px !important;
+        overflow:hidden !important;
+        
+        
+    
+    }
+  }

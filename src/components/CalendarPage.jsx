@@ -24,9 +24,9 @@ const CalendarPage = () => {
     office: '1',
   });
   const officeColors = {
-    1: '#ff9f00',
-    2: '#007bff',
-    3: '#28a745',
+    1: '#007bff',
+    2: '#28a745',
+    3: '#ff9f00',
   };
   const [appointments, setAppointments] = useState([]);
   const [conflictError, setConflictError] = useState('');
@@ -253,7 +253,7 @@ const CalendarPage = () => {
         selectable={true}
         events={appointments.map(appointment => ({
           id: appointment.id,
-          title: `Dr/a: ${appointment.user ? appointment.user.name : session.user.name} - Consultorio: ${appointment.office}`,
+          title: `Dr/a: ${appointment.user ? appointment.user.name : session.user.name} - Sala: ${appointment.office}`,
           start: appointment.startTime,
           end: appointment.endTime,
           backgroundColor: officeColors[appointment.office] || '#ccc',

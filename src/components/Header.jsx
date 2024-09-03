@@ -17,18 +17,18 @@ const Header = () => {
   };
 
   return (
-    <header>      
-
+    <header>
       <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="img/logo/sakura 1_7@2x.png" className="h-20" alt="Flowbite Logo" />
+            <img src="img/logo/logo_nav_2.png" className="h-6" alt="Flowbite Logo" />
             <span className="self-center text-l font-semibold whitespace-nowrap dark:text-white">Consultorio Goya</span>
           </a>
+          {/* Botón de menú hamburguesa, visible solo en móviles */}
           <button
             onClick={toggleMenu}
             type="button"
-            className="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden"
             aria-controls="navbar-hamburger"
             aria-expanded={isMenuOpen}
           >
@@ -37,19 +37,40 @@ const Header = () => {
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
             </svg>
           </button>
-          <div className={`${isMenuOpen ? 'block' : 'hidden'} w-full`} id="navbar-hamburger">
-            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">              
-              <li><a href="/" className="block py-2 px-3 text-white bg-blue-700 rounded dark:bg-blue-600" aria-current="page">Inicio</a></li>
+          {/* Menú desplegable, visible solo en móviles */}
+          <div className={`${isMenuOpen ? 'block' : 'hidden'} w-full lg:hidden`} id="navbar-hamburger">
+            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
               {session && session.user.role.trim() === 'admin' && (
                 <li><a href="/calendar" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Calendario</a></li>
               )}
               <li><a href="/about" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Sobre nosotros</a></li>
               {session ? (
-                <>
-                  <li className="block py-2 px-3 text-gray-900 rounded hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-700 dark:hover:text-red-700"><button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer' }}>Cerrar sesión</button></li>
-                </>
+                <li className="block py-2 px-3 text-gray-900 rounded hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-700 dark:hover:text-red-700">
+                  <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer' }}>Cerrar sesión</button>
+                </li>
               ) : (
-                <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><a href="/login">Ingresar</a></li>
+                <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <a href="/login">Ingresar</a>
+                </li>
+              )}
+            </ul>
+          </div>
+          {/* Menú de navegación, visible solo en escritorio */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-4">
+            <ul className="flex space-x-4">
+              {/* <li><a href="/" className="block py-2 px-3 text-white bg-blue-700 rounded dark:bg-blue-600" aria-current="page">Inicio</a></li> */}
+              {session && session.user.role.trim() === 'admin' && (
+                <li><a href="/calendar" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Calendario</a></li>
+              )}
+              <li><a href="/about" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Sobre nosotros</a></li>
+              {session ? (
+                <li className="block py-2 px-3 text-gray-900 rounded hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-700 dark:hover:text-red-700">
+                  <button onClick={handleSignOut} style={{ background: 'none', border: 'none', color: 'red', cursor: 'pointer' }}>Cerrar sesión</button>
+                </li>
+              ) : (
+                <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <a href="/login">Ingresar</a>
+                </li>
               )}
             </ul>
           </div>
