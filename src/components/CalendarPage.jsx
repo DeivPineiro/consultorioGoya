@@ -129,31 +129,14 @@ const CalendarPage = () => {
     setShowModal(true);
   };
 
-  // const handleNewAppointment = () => {
-  //   setFormData({
-  //     patientName: '',
-  //     patientSurName: '',
-  //     dni: '',
-  //     email: '',
-  //     phone: '',
-  //     startTime: '',
-  //     endTime: '',
-  //     office: '1',
-  //   });
-  //   setSelectedSlot(null);
-  //   setShowModal(true);
-  // };
-  const handleNewAppointment = () => {
-    // Obtener la fecha seleccionada en la vista mensual
+    const handleNewAppointment = () => {    
     const selectedDate = calendarRef.current.getApi().getDate();
-  
-    // Establecer el estado de selectedSlot con la fecha seleccionada
+    
     setSelectedSlot({
       startStr: selectedDate.toISOString(),
       endStr: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString(), // Por defecto, establecer una hora de fin 1 hora después
-    });
+    }); 
   
-    // Limpiar el formulario y mostrar el modal
     setFormData({
       patientName: '',
       patientSurName: '',
@@ -298,12 +281,13 @@ const CalendarPage = () => {
       />
 
       {showModal && currentView === 'timeGridDay' && (
-        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+        <div className='modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
           <div className='w-full max-w-md p-4 bg-white rounded-lg shadow-lg'>
             <form onSubmit={handleSubmit}>
               <h2 className='mb-4 text-xl font-semibold text-center'>{selectedSlot?.id ? 'Editar Turno' : 'Agregar Turno'}</h2>
               {conflictError && <div className='mb-2 text-sm text-red-600'>{conflictError}</div>}
-              <div className='mb-4'>
+              <div className='justify-between flex mb-4'>
+              <div className='w-full mr-2'>
                 <label className='block mb-1 text-sm font-medium' htmlFor='patientName'>Nombre del paciente:</label>
                 <input
                   className='w-full px-3 py-2 border rounded'
@@ -315,7 +299,7 @@ const CalendarPage = () => {
                   required
                 />
               </div>
-              <div className='mb-4'>
+              <div className='w-full ml-2'>
                 <label className='block mb-1 text-sm font-medium' htmlFor='patientSurName'>Apellido del paciente:</label>
                 <input
                   className='w-full px-3 py-2 border rounded'
@@ -326,6 +310,7 @@ const CalendarPage = () => {
                   onChange={handleChange}
                   required
                 />
+              </div>
               </div>
               <div className='mb-4'>
                 <label className='block mb-1 text-sm font-medium' htmlFor='dni'>DNI:</label>

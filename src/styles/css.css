@@ -81,6 +81,11 @@
     
 
 }
+
+.modal{   
+    overflow-y: auto;  
+
+}
 @media screen and (min-width: 800px) {
     .fc-daygrid-day-frame{
 
