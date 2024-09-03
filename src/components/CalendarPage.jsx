@@ -129,21 +129,44 @@ const CalendarPage = () => {
     setShowModal(true);
   };
 
+  // const handleNewAppointment = () => {
+  //   setFormData({
+  //     patientName: '',
+  //     patientSurName: '',
+  //     dni: '',
+  //     email: '',
+  //     phone: '',
+  //     startTime: '',
+  //     endTime: '',
+  //     office: '1',
+  //   });
+  //   setSelectedSlot(null);
+  //   setShowModal(true);
+  // };
   const handleNewAppointment = () => {
+    // Obtener la fecha seleccionada en la vista mensual
+    const selectedDate = calendarRef.current.getApi().getDate();
+  
+    // Establecer el estado de selectedSlot con la fecha seleccionada
+    setSelectedSlot({
+      startStr: selectedDate.toISOString(),
+      endStr: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString(), // Por defecto, establecer una hora de fin 1 hora después
+    });
+  
+    // Limpiar el formulario y mostrar el modal
     setFormData({
       patientName: '',
       patientSurName: '',
       dni: '',
       email: '',
       phone: '',
-      startTime: '',
-      endTime: '',
+      startTime: selectedDate.toISOString().slice(11, 16),
+      endTime: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString().slice(11, 16), // Hora de fin 1 hora después
       office: '1',
     });
-    setSelectedSlot(null);
     setShowModal(true);
   };
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
