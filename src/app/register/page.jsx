@@ -34,7 +34,7 @@ export default function Register() {
 
   return (
     <div className=" flex items-start justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-10">
         <h1 className="text-2xl font-semibold mb-4">Registro</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
