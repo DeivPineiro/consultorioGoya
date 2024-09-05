@@ -1,6 +1,6 @@
 export default function AboutPage() {
     return (
-        <div className="bg-gray-50 min-h-screen flex items-center justify-center py-16">
+        <div className="bg-gray-50 min-h-screen flex items-start justify-center py-16">
             <div className="max-w-4xl mx-auto px-6 lg:px-8">               
                 <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">Sobre Nosotros</h1>
              
