@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma'; 
 import moment from 'moment-timezone';
 
-// Función para manejar solicitudes POST (ya existente)
+
 export async function POST(request) {
   try {
     const { patientName, patientSurName, dni, email, phone, startTime, endTime, office, userId, date } = await request.json();
@@ -38,16 +38,14 @@ export async function POST(request) {
   }
 }
 
-// Función para manejar solicitudes GET
 export async function GET() {
   try {
     const appointments = await prisma.appointment.findMany({
       include: {
-        user: true, // Incluir la información del usuario (médico) relacionado
+        user: true, 
       },
     });
-
-    // Mapea las citas para incluir los detalles del usuario en la respuesta
+   
     const response = appointments.map(appointment => ({
       id: appointment.id,
       patientName: appointment.patientName,
@@ -60,7 +58,7 @@ export async function GET() {
       phone: appointment.phone,
       user: appointment.user ? {
         id: appointment.user.id,
-        name: appointment.user.name, // Asegúrate de que `name` es un campo en tu modelo User
+        name: appointment.user.name, 
       } : null,
     }));
 
@@ -72,12 +70,12 @@ export async function GET() {
 }
 
 export async function PUT(request, { params }) {
-  const { id } = params; // Obtener el ID del turno de la URL
+  const { id } = params; 
   const data = await request.json();
 
   try {
     const updatedAppointment = await prisma.appointment.update({
-      where: { id: parseInt(id, 10) }, // Asegúrate de convertir el ID a un número entero
+      where: { id: parseInt(id, 10) }, 
       data: {
         patientName: data.patientName,
         patientSurName: data.patientSurName,

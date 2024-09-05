@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Asegúrate de importar tu instancia de Prisma
+import prisma from '@/lib/prisma'; 
 
 export async function PUT(req, { params }) {
-  const { id } = params; // Obtén el ID de la URL
+  const { id } = params; 
   const { patientName, patientSurName, dni, email, phone, startTime, endTime, office } = await req.json();
 
  
@@ -30,7 +30,7 @@ export async function PUT(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
-  const { id } = params; // Obtén el ID de la URL
+  const { id } = params; 
 
   try {
     const deletedAppointment = await prisma.appointment.delete({

@@ -9,7 +9,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
-    await signOut({ redirect: false }); // Cierra sesión sin redireccionar automáticamente
+    await signOut({ redirect: false }); 
   };
 
   const toggleMenu = () => {
@@ -23,8 +23,7 @@ const Header = () => {
           <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="img/logo/logo_nav_2.png" className="h-6" alt="Flowbite Logo" />
             <span className="self-center text-l font-semibold whitespace-nowrap dark:text-white">Consultorio Goya</span>
-          </a>
-          {/* Botón de menú hamburguesa, visible solo en móviles */}
+          </a>          
           <button
             onClick={toggleMenu}
             type="button"
@@ -36,8 +35,7 @@ const Header = () => {
             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
             </svg>
-          </button>
-          {/* Menú desplegable, visible solo en móviles */}
+          </button>          
           <div className={`${isMenuOpen ? 'block' : 'hidden'} w-full lg:hidden`} id="navbar-hamburger">
             <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
               {session && session.user.role.trim() === 'admin' && (
@@ -54,11 +52,9 @@ const Header = () => {
                 </li>
               )}
             </ul>
-          </div>
-          {/* Menú de navegación, visible solo en escritorio */}
+          </div>          
           <div className="hidden lg:flex lg:items-center lg:space-x-4">
-            <ul className="flex space-x-4">
-              {/* <li><a href="/" className="block py-2 px-3 text-white bg-blue-700 rounded dark:bg-blue-600" aria-current="page">Inicio</a></li> */}
+            <ul className="flex space-x-4">             
               {session && session.user.role.trim() === 'admin' && (
                 <li><a href="/calendar" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Calendario</a></li>
               )}

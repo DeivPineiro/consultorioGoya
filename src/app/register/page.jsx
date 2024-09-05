@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Nota el uso de 'next/navigation'
+import { useRouter } from 'next/navigation'; 
 
 export default function Register() {
   const [name, setName] = useState('');

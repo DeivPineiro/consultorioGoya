@@ -9,18 +9,16 @@ const HomePage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'loading') return; // Mientras se carga la sesión, no hacemos nada
+    if (status === 'loading') return; 
 
-    if (!session) {
-      // Redirige a /login si no está autenticado
+    if (!session) {      
       router.replace('/login');
-    } else {
-      // Redirige a /calendar si está autenticado
+    } else {    
       router.replace('/calendar');
     }
   }, [session, status, router]);
 
-  return null; // No renderizamos nada en esta página ya que solo redirigimos
+  return null; 
 };
 
 export default HomePage;

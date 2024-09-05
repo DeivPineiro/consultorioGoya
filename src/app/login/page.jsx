@@ -1,4 +1,3 @@
-// src/app/login/page.js
 "use client";
 import { signIn, getSession } from 'next-auth/react';
 import { useState } from 'react';

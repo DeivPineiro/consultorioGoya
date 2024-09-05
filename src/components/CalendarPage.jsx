@@ -30,8 +30,7 @@ const CalendarPage = () => {
   };
   const [appointments, setAppointments] = useState([]);
   const [conflictError, setConflictError] = useState('');
-
-  // Fetch appointments and set state
+ 
   const fetchAppointments = async () => {
     try {
       const response = await axios.get('/api/appointments');
@@ -43,7 +42,7 @@ const CalendarPage = () => {
 
   useEffect(() => {
     fetchAppointments();
-  }, []); // Initial load
+  }, []); 
 
   const handleDateClick = (arg) => {
     const calendarApi = calendarRef.current.getApi();
@@ -134,7 +133,7 @@ const CalendarPage = () => {
     
     setSelectedSlot({
       startStr: selectedDate.toISOString(),
-      endStr: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString(), // Por defecto, establecer una hora de fin 1 hora después
+      endStr: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString(), 
     }); 
   
     setFormData({
@@ -144,7 +143,7 @@ const CalendarPage = () => {
       email: '',
       phone: '',
       startTime: selectedDate.toISOString().slice(11, 16),
-      endTime: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString().slice(11, 16), // Hora de fin 1 hora después
+      endTime: new Date(selectedDate.getTime() + 60 * 60 * 1000).toISOString().slice(11, 16), 
       office: '1',
     });
     setShowModal(true);

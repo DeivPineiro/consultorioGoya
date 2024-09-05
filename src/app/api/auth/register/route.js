@@ -11,8 +11,7 @@ export async function POST(req) {
     );
   }
 
-  try {
-    // Verificar si el correo electrónico o el DNI ya está registrado
+  try {    
     const existingUser = await prisma.user.findFirst({
       where: {
         OR: [

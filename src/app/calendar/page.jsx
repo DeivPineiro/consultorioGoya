@@ -10,7 +10,7 @@ export default function Calendar() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'loading') return; // Esperar a que se cargue la sesión
+    if (status === 'loading') return; 
 
     if (!session || session.user.role.trim() !== 'admin') {
       router.push('/login');

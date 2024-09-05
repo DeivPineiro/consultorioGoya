@@ -1,9 +1,8 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import prisma from '@/lib/prisma.js'; // Verifica que esta ruta sea correcta
+import prisma from '@/lib/prisma.js'; 
 import bcrypt from 'bcryptjs';
 
-// Configuración de NextAuth
 const authOptions = {
     providers: [
         CredentialsProvider({
@@ -23,10 +22,10 @@ const authOptions = {
         }),
     ],
     pages: {
-        signIn: '/login', // Redirige a la página de inicio de sesión personalizada
+        signIn: '/login', 
     },
     session: {
-        strategy: 'jwt', // Usa JWT para las sesiones
+        strategy: 'jwt', 
     },
     callbacks: {
         async session({ session, token }) {
@@ -54,9 +53,6 @@ const authOptions = {
     },
 };
 
-// Exporta las funciones GET y POST
-// export const GET = (req, res) => NextAuth(req, res, authOptions);
-// export const POST = (req, res) => NextAuth(req, res, authOptions);
 
 export const GET = async (req, res) => {
     return await NextAuth(req, res, authOptions);

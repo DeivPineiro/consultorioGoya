@@ -7,13 +7,11 @@ export async function POST(request) {
   try {
     const start = new Date(startTime);
     const end = new Date(endTime);
-
-    // Verifica si las fechas son válidas
+    
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
       throw new Error('Invalid date or time value.');
     }
-
-    // Si appointmentId no está definido, omite el filtro NOT
+ 
     const existingAppointments = await prisma.appointment.findMany({
       where: {
         office: parseInt(office),
@@ -22,8 +20,7 @@ export async function POST(request) {
         },
         endTime: {
           gt: start,
-        },
-        // Si appointmentId está definido, exclúyelo de la consulta
+        },        
         ...(appointmentId && {
           NOT: {
             id: parseInt(appointmentId),
