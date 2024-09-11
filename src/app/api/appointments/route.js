@@ -1,21 +1,18 @@
 import { NextResponse } from 'next/server';
-import prisma from '../../../lib/prisma'; 
+import prisma from '../../../lib/prisma';
 import moment from 'moment-timezone';
 
 
 export async function POST(request) {
   try {
-    const { patientName, patientSurName, dni, email, phone, startTime, endTime, office, userId, date } = await request.json();
-        
+    const { patientName, patientSurName, dni, email, phone, startTime, endTime, office, userId, date, comment, cancelturn, withnotice, cancelcomment } = await request.json();
+
     const parsedDni = parseInt(dni, 10);
     const parsedOffice = parseInt(office, 10);
-    const parsedUserId = parseInt(userId, 10);       
-    const selectedDate = date.split('T')[0]; 
+    const parsedUserId = parseInt(userId, 10);
+    const selectedDate = date.split('T')[0];
     const startDateTime = moment.tz(`${selectedDate}T${startTime}:00`, 'America/Argentina/Buenos_Aires').toDate();
     const endDateTime = moment.tz(`${selectedDate}T${endTime}:00`, 'America/Argentina/Buenos_Aires').toDate();
-
-    console.log(startTime + " " + endTime);
-   console.log(startDateTime + "  " + endDateTime);
 
     const appointment = await prisma.appointment.create({
       data: {
@@ -24,9 +21,13 @@ export async function POST(request) {
         dni: parsedDni,
         email,
         phone,
-        startTime: startDateTime.toISOString(), 
-        endTime: endDateTime.toISOString(), 
+        startTime: startDateTime.toISOString(),
+        endTime: endDateTime.toISOString(),
         office: parsedOffice,
+        comment,
+        cancelturn,
+        withnotice,
+        cancelcomment,
         userId: parsedUserId,
       },
     });
@@ -42,10 +43,10 @@ export async function GET() {
   try {
     const appointments = await prisma.appointment.findMany({
       include: {
-        user: true, 
+        user: true,
       },
     });
-   
+
     const response = appointments.map(appointment => ({
       id: appointment.id,
       patientName: appointment.patientName,
@@ -53,12 +54,16 @@ export async function GET() {
       startTime: appointment.startTime,
       endTime: appointment.endTime,
       office: appointment.office,
+      comment: appointment.comment,
+      cancelturn: appointment.cancelturn,
+      withnotice: appointment.withnotice,
+      cancelcomment: appointment.cancelcomment,
       dni: appointment.dni,
       email: appointment.email,
       phone: appointment.phone,
       user: appointment.user ? {
         id: appointment.user.id,
-        name: appointment.user.name, 
+        name: appointment.user.name,
       } : null,
     }));
 
@@ -70,12 +75,12 @@ export async function GET() {
 }
 
 export async function PUT(request, { params }) {
-  const { id } = params; 
+  const { id } = params;
   const data = await request.json();
 
   try {
     const updatedAppointment = await prisma.appointment.update({
-      where: { id: parseInt(id, 10) }, 
+      where: { id: parseInt(id, 10) },
       data: {
         patientName: data.patientName,
         patientSurName: data.patientSurName,
@@ -85,9 +90,13 @@ export async function PUT(request, { params }) {
         startTime: data.startTime,
         endTime: data.endTime,
         office: data.office,
+        comment: data.comment,
+        cancelturn: data.cancelturn,
+        withnotice: data.whitnotice,
+        cancelcomment: data.cancelcomment,
       },
     });
-    
+
     return NextResponse.json({ success: true, appointment: updatedAppointment });
   } catch (error) {
     console.error('Error al actualizar el turno:', error);

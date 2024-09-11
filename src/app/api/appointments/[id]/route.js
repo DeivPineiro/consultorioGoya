@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; 
+import prisma from '@/lib/prisma';
 
 export async function PUT(req, { params }) {
-  const { id } = params; 
-  const { patientName, patientSurName, dni, email, phone, startTime, endTime, office } = await req.json();
+  const { id } = params;
+  const { patientName, patientSurName, dni, email, phone, startTime, endTime, office, comment, cancelturn, withnotice, cancelcomment, medicId } = await req.json();
 
- 
+
 
   try {
+    const parsedUserId = parseInt(medicId, 10);
     const updatedAppointment = await prisma.appointment.update({
       where: { id: Number(id) },
       data: {
@@ -19,6 +20,11 @@ export async function PUT(req, { params }) {
         startTime: new Date(startTime),
         endTime: new Date(endTime),
         office: Number(office),
+        comment,
+        cancelturn,
+        withnotice,
+        cancelcomment,
+        userId: parsedUserId
       },
     });
 
@@ -30,7 +36,7 @@ export async function PUT(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
-  const { id } = params; 
+  const { id } = params;
 
   try {
     const deletedAppointment = await prisma.appointment.delete({

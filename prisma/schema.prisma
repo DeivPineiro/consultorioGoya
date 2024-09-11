@@ -30,6 +30,10 @@ model Appointment {
   startTime      DateTime
   endTime        DateTime
   office         Int
+  comment        String?
+  cancelturn     Boolean?
+  withnotice     Boolean?
+  cancelcomment  String?
   userId         Int
   user           User     @relation("UserAppointments", fields: [userId], references: [id])
 }
