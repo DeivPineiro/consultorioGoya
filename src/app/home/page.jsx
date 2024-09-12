@@ -22,7 +22,7 @@ export default function HomePage() {
                         
                     </p>
                     <a 
-                            href="https://wa.me/1568445999" 
+                            href="https://wa.me/1123871137" 
                             className="ml-2 m-auto" 
                             target="_blank" 
                             rel="noopener noreferrer"
