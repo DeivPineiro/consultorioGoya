@@ -8,13 +8,14 @@ export async function PUT(req, { params }) {
 
 
   try {
+    
     const parsedUserId = parseInt(medicId, 10);
     const updatedAppointment = await prisma.appointment.update({
       where: { id: Number(id) },
       data: {
         patientName,
         patientSurName,
-        dni,
+        dni: Number(dni),
         email,
         phone,
         startTime: new Date(startTime),

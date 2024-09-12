@@ -82,6 +82,21 @@
 
 }
 
+.sombraPng {
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7)); 
+    transition: filter 3s ease-in-out;  
+  }
+
+.sombraPngShadow {
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7)); 
+    transition: filter 3s ease-in-out;  
+  }
+
+  .sombraPngShadow:hover {
+    filter: drop-shadow(0 2px 5px rgb(0, 255, 89)); 
+    transition: filter 3s ease-in-out;  
+  }
+
 .modal{   
     overflow-y: auto;  
 

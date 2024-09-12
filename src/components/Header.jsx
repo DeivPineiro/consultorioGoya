@@ -38,6 +38,7 @@ const Header = () => {
           </button>          
           <div className={`${isMenuOpen ? 'block' : 'hidden'} w-full lg:hidden`} id="navbar-hamburger">
             <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+            <li><a href="/home" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Inicio</a></li>
               {session && session.user.role.trim() === 'admin' && (
                 <li><a href="/calendar" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Calendario</a></li>
               )}
@@ -54,7 +55,8 @@ const Header = () => {
             </ul>
           </div>          
           <div className="hidden lg:flex lg:items-center lg:space-x-4">
-            <ul className="flex space-x-4">             
+            <ul className="flex space-x-4">   
+            <li><a href="/home" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Inicio</a></li>          
               {session && session.user.role.trim() === 'admin' && (
                 <li><a href="/calendar" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white">Calendario</a></li>
               )}

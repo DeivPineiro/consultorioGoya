@@ -28,7 +28,7 @@ const CalendarPage = () => {
     withnotice: false,
     cancelcomment: '',
     medicId: session?.user?.id,
-  });  
+  });
   const officeColors = {
     1: '#007bff',
     2: '#28a745',
@@ -37,7 +37,7 @@ const CalendarPage = () => {
   const [appointments, setAppointments] = useState([]);
   const [conflictError, setConflictError] = useState('');
   const [medics, setMedics] = useState([]);
-  
+
   const fetchMedics = async () => {
     try {
       const response = await axios.get('api/medics');
@@ -47,7 +47,7 @@ const CalendarPage = () => {
     }
   }
 
-  
+
 
   const fetchAppointments = async () => {
     try {
@@ -232,17 +232,14 @@ const CalendarPage = () => {
         });
 
         if (availabilityResponse.data.available) {
-          let turnoAjeno;
-          if (medicId !== session.user.id){
-
-            turnoAjeno = true;
-
-          }
+          let turnoAjeno = formData.medicId !== session.user.id;
           response = await axios.put(`/api/appointments/${selectedSlot.id}`, {
             ...formData,
             userId: formData.medicId,
             cancelcomment: `${(formData.cancelcomment || formData.cancelturn) ? formData.cancelcomment + " // Cancelado por : " + session.user.name + " " + session.user.surname : formData.cancelcomment}`,
-            comment: `${(turnoAjeno) ? formData.comment + " // Agendado por : " + session.user.name + " " + session.user.surname : formData.comment}`,
+            comment: turnoAjeno
+              ? `${formData.comment ? formData.comment + " // Re-agendado por: " : "Re-agendado por: "}${session.user.name} ${session.user.surname}`
+              : formData.comment,
             startTime: formattedStartTime.toISOString(),
             endTime: formattedEndTime.toISOString(),
           });
@@ -261,17 +258,16 @@ const CalendarPage = () => {
         });
 
         if (availabilityResponse.data.available) {
-          let turnoAjeno;
-          if (medicId !== session.user.id){
 
-            turnoAjeno = true;
+          let turnoAjeno = formData.medicId !== session.user.id;
 
-          }
           response = await axios.post('/api/appointments', {
             ...formData,
             userId: formData.medicId,
-            comment: `${(turnoAjeno) ? formData.comment + " // Agendado por : " + session.user.name + " " + session.user.surname : formData.comment}`,
-            date: selectedSlot?.startStr.split('T')[0] || new Date().toISOString().split('T')[0],            
+            comment: turnoAjeno
+              ? `${formData.comment} // Agendado por: ${session.user.name} ${session.user.surname}`
+              : formData.comment,
+            date: selectedSlot?.startStr.split('T')[0] || new Date().toISOString().split('T')[0],
           });
         } else {
           setConflictError('Ese horario ya está ocupado. Por favor, elige otro.');
@@ -354,11 +350,11 @@ const CalendarPage = () => {
               {conflictError && <div className='mb-2 text-sm text-red-600'>{conflictError}</div>}
 
               <div className='mb-4'>
-                <label className='block mb-1 text-sm font-medium' htmlFor='medic'>Médico:</label>
+                <label className='block mb-1 text-sm font-medium' htmlFor='medic'>Odontólogo:</label>
                 <select
                   className='w-full px-3 py-2 border rounded'
                   id='medicId'
-                  name='medicId'                  
+                  name='medicId'
                   value={formData.medicId}
                   onChange={handleChange}
                   required
@@ -582,4 +578,4 @@ const CalendarPage = () => {
 
 export default CalendarPage;
 
-// todo AGREGAR NOTAS AL // Dejar aviso de cancelacion de turno a otro medico // Agendar turno para otro medico
+// todo Al guardar un turno propio sale el comment como si lo ubiese guardado otro, pero es de si mismo. 
